@@ -3,13 +3,24 @@ package com.example.orderfood_app.model;
 public class Users {
     private String Name;
     private String Password;
+    private String Phone;
 
     public Users() {
     }
 
-    public Users(String name, String password) {
+
+    public Users(String name, String password, String phone) {
         Name = name;
         Password = password;
+        Phone = phone;
+    }
+
+    public String getPhone() {
+        return Phone;
+    }
+
+    public void setPhone(String phone) {
+        Phone = phone;
     }
 
     public String getName() {

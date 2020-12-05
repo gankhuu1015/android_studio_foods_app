@@ -51,6 +51,7 @@ public class SignIn extends AppCompatActivity {
                             // user Хүстэгтээс хэрэглэгчийн мэдээлэл авах
                              mDiadlog.dismiss();
                             Users user = snapshot.child(edtPhone.getText().toString()).getValue(Users.class);
+                            user.setPhone(edtPhone.getText().toString()); //utasnii dugaar awah
                             if (user.getPassword().equals(edtPassword.getText().toString())) {
                                 {
                                     Intent homeIntent = new Intent(SignIn.this,Home.class);

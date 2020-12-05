@@ -1,5 +1,6 @@
 package com.example.orderfood_app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -35,6 +36,7 @@ public class Home extends AppCompatActivity {
     TextView txtFullName;
     RecyclerView recycler_menu;
     RecyclerView.LayoutManager layoutManager;
+    FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter;
 
     private AppBarConfiguration mAppBarConfiguration;
     private LinearLayoutManager LayoutManager;
@@ -68,7 +70,7 @@ public class Home extends AppCompatActivity {
 
         // hereglegchiin neriig haruulah
         View headerView = navigationView.getHeaderView(0);
-        txtFullName = (TextView)findViewById(R.id.txtFullName);
+        txtFullName = (TextView) headerView.findViewById(R.id.txtFullName);
         txtFullName.setText(Common.currentUser.getName());
 
 
@@ -91,16 +93,25 @@ public class Home extends AppCompatActivity {
 
     private void loadMenu()
     {
-        FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class,R.layout.menu_item,MenuViewHolder.class, category) {
+
+      adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class,R.layout.menu_item,MenuViewHolder.class, category) {
             @Override
             protected void populateViewHolder(MenuViewHolder menuViewHolder, Category category, int i) {
                 menuViewHolder.txtMenuName.setText((category.getName()));
-                Picasso.get().load(category.getName()).into(menuViewHolder.imageView);
+                Picasso.get().load(category.getImage()).into(menuViewHolder.imageView);
                 final Category clickItem = category;
             menuViewHolder.setItemClickListener(new ItemClickListener() {
                 @Override
                 public void onClick(View view, int position, boolean isLongClick) {
-                    Toast.makeText(Home.this,"" +clickItem.getName(), Toast.LENGTH_SHORT).show();
+                   /* Toast.makeText(Home.this,"" +clickItem.getName(), Toast.LENGTH_SHORT).show();*/
+                    // CategoryId= menuID temtsvvl bol tuhain restornsnii hooliig haruulah
+
+                    Intent foodList = new Intent(Home.this,FoodList.class);
+
+                    foodList.putExtra("CategoryId", adapter.getRef(position).getKey());
+                    startActivity(foodList);
+
+
                 }
             });
             }
